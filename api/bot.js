@@ -363,9 +363,8 @@ async function processSupportMessage(player, text, runtime, from) {
   }
 
   const username = from && from.username ? `@${from.username}` : `id:${tgId}`;
-  await sendToTopic(threadId, `💬 *Новое сообщение от игрока*\n👤 ${escapeMd(player.nick || player.id)} (
-` +
-    `\(${escapeMd(username)}\)\n\n${escapeMd(text)}`, runtime, { parse_mode: "MarkdownV2" });
+  const topicText = `💬 *Новое сообщение от игрока*\n👤 ${escapeMd(player.nick || player.id)} (${escapeMd(username)})\n\n${escapeMd(text)}`;
+  await sendToTopic(threadId, topicText, runtime, { parse_mode: "MarkdownV2" });
 }
 
 async function adminOpenPlayerCard(query, chatId, threadId, runtime) {
@@ -382,7 +381,7 @@ async function adminOpenPlayerCard(query, chatId, threadId, runtime) {
 async function sendAdminPlayerCard(chatId, threadId, player, runtime) {
   const inv = Array.isArray(player.inventory) ? player.inventory : [];
   await sendMessage(chatId,
-    `👤 *Карточка игрока*\nID: \\`${escapeMd(player.id || "")}\\`\nНик: *${escapeMd(player.nick || "-")}*\nСервер: *${escapeMd(player.server || "-")}*\nБаланс: *${Number(player.balance || 0).toLocaleString("ru-RU")} BC*\nИнвентарь: *${inv.length}*`,
+    `👤 *Карточка игрока*\nID: \`${escapeMd(player.id || "")}\`\nНик: *${escapeMd(player.nick || "-")}*\nСервер: *${escapeMd(player.server || "-")}*\nБаланс: *${Number(player.balance || 0).toLocaleString("ru-RU")} BC*\nИнвентарь: *${inv.length}*`,
     {
       parse_mode: "MarkdownV2",
       message_thread_id: threadId,
