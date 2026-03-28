@@ -241,7 +241,7 @@ async function createSupportThread(player, runtime) {
   store.supportThread.set(SUPPORT_THREAD_PREFIX + threadId, Number(player.telegram_id || 0));
   store.supportPlayer.set(SUPPORT_PLAYER_PREFIX + Number(player.telegram_id || 0), threadId);
 
-  await sendToTopic(threadId, `🆕 *Новый тикет*\n👤 Игрок: ${escapeMd(player.nick || player.id)}\n🆔 Telegram ID: \`${player.telegram_id}\``, runtime, { parse_mode: "MarkdownV2" });
+  await sendToTopic(threadId, "🆕 *Новый тикет*\n👤 Игрок: " + escapeMd(player.nick || player.id) + "\n🆔 Telegram ID: `" + player.telegram_id + "`", runtime, { parse_mode: "MarkdownV2" });
   await sendToTopic(runtime.topics.support, `💬 Создан новый тикет: thread ${threadId} для игрока ${escapeMd(player.nick || player.id)}`, runtime, { parse_mode: "MarkdownV2" });
   return threadId;
 }
@@ -342,7 +342,7 @@ async function activatePromoForPlayer(player, inputCode, runtime, chatId) {
     reply_markup: { inline_keyboard: [[{ text: "🔵 Показать баланс", callback_data: "pl:show_balance" }]] },
   });
 
-  await sendToTopic(runtime.topics.actions, `🎁 *Активация промокода*\n👤 Игрок: ${escapeMd(player.nick || player.id)}\n🏷️ Код: \`${escapeMd(code)}\`\n💰 Награда: ${reward} BC`, runtime, { parse_mode: "MarkdownV2" });
+  await sendToTopic(runtime.topics.actions, "🎁 *Активация промокода*\n👤 Игрок: " + escapeMd(player.nick || player.id) + "\n🏷️ Код: `" + escapeMd(code) + "`\n💰 Награда: " + reward + " BC", runtime, { parse_mode: "MarkdownV2" });
 }
 
 async function processSupportMessage(player, text, runtime, from) {
@@ -381,7 +381,7 @@ async function adminOpenPlayerCard(query, chatId, threadId, runtime) {
 async function sendAdminPlayerCard(chatId, threadId, player, runtime) {
   const inv = Array.isArray(player.inventory) ? player.inventory : [];
   await sendMessage(chatId,
-    `👤 *Карточка игрока*\nID: \`${escapeMd(player.id || "")}\`\nНик: *${escapeMd(player.nick || "-")}*\nСервер: *${escapeMd(player.server || "-")}*\nБаланс: *${Number(player.balance || 0).toLocaleString("ru-RU")} BC*\nИнвентарь: *${inv.length}*`,
+    "👤 *Карточка игрока*\nID: `" + escapeMd(player.id || "") + "`\nНик: *" + escapeMd(player.nick || "-") + "*\nСервер: *" + escapeMd(player.server || "-") + "*\nБаланс: *" + Number(player.balance || 0).toLocaleString("ru-RU") + " BC*\nИнвентарь: *" + inv.length + "*",
     {
       parse_mode: "MarkdownV2",
       message_thread_id: threadId,
@@ -431,7 +431,7 @@ async function adminSendPromos(chatId, threadId, runtime) {
   const promos = await getActivePromos();
   let txt = "🎁 *Активные промокоды*\n\n";
   if (!promos.length) txt += "Пусто";
-  else for (let i = 0; i < promos.length; i++) txt += `• \`${escapeMd(promos[i].code)}\` — *${Number(promos[i].reward || 0)} BC*\n`;
+  else for (let i = 0; i < promos.length; i++) txt += "• `" + escapeMd(promos[i].code) + "` — *" + Number(promos[i].reward || 0) + " BC*\n";
 
   await sendMessage(chatId, txt, { parse_mode: "MarkdownV2", message_thread_id: threadId, reply_markup: { inline_keyboard: [[{ text: "🟩 ➕ Создать", callback_data: "ad:promos:create" }]] } });
 }
@@ -462,7 +462,8 @@ async function handlePlayerCallback(cq, player, runtime) {
   const chatId = cq.message.chat.id;
 
   if (data === "pl:balance" || data === "pl:show_balance") {
-    await sendMessage(chatId, `💰 *Ваш баланс:* \\`${Number(player.balance || 0).toLocaleString("ru-RU")} BC\\``, {
+    const balanceText = "💰 *Ваш баланс:* `" + Number(player.balance || 0).toLocaleString("ru-RU") + " BC`";
+    await sendMessage(chatId, balanceText, {
       parse_mode: "MarkdownV2",
       reply_markup: { inline_keyboard: [[{ text: "🔵 Обновить", callback_data: "pl:balance" }], [{ text: "◀️ Меню", callback_data: "pl:menu" }]] }
     });
@@ -551,8 +552,8 @@ async function handleAdminCallback(cq, runtime) {
 }
 
 function adminTag(adminUser) {
-  if (adminUser && adminUser.username) return `@${escapeMd(adminUser.username)}`;
-  return `\`${Number((adminUser && adminUser.id) || 0)}\``;
+  if (adminUser && adminUser.username) return "@" + escapeMd(adminUser.username);
+  return "`" + Number((adminUser && adminUser.id) || 0) + "`";
 }
 
 function detectFavoriteCase(stats) {
@@ -661,7 +662,7 @@ async function handleAdminChatMessage(msg, runtime) {
       await upsertPromo(code, reward, runtime);
       clearState(stateKey(ADMIN_STATE_PREFIX, adminId));
       await sendMessage(msg.chat.id, `✅ Промокод сохранен: ${code} -> ${reward} BC`);
-      await sendToTopic(runtime.topics.admin, `🛠️ *Создан/обновлен промокод*\n👨‍💼 Админ: ${adminTag(from)}\n🎁 Код: \\`${escapeMd(code)}\\`\n💰 Награда: ${reward} BC`, runtime, { parse_mode: "MarkdownV2" });
+      await sendToTopic(runtime.topics.admin, "🛠️ *Создан/обновлен промокод*\n👨‍💼 Админ: " + adminTag(from) + "\n🎁 Код: `" + escapeMd(code) + "`\n💰 Награда: " + reward + " BC", runtime, { parse_mode: "MarkdownV2" });
       return;
     }
   }
