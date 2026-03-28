@@ -279,19 +279,28 @@ async function safeLogError(err, where) {
 }
 
 async function sendPlayerMainMenu(chatId, player) {
-  await sendMessage(chatId,
-    `👋 *BR Simulator*\nВаш профиль привязан: *${escapeMd(player.nick || player.id)}*\n\nВыберите действие:`,
-    {
-      parse_mode: "MarkdownV2",
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "🟦 💰 Баланс", callback_data: "pl:balance" }, { text: "🟪 📦 Инвентарь", callback_data: "pl:inventory:0" }],
-          [{ text: "🟨 🎁 Промокод", callback_data: "pl:promo" }, { text: "🟥 📞 Техподдержка", callback_data: "pl:support" }],
-          [{ text: "⬜ 📊 Статистика", callback_data: "pl:stats" }],
-        ],
-      },
-    }
-  );
+  const profileNick = escapeMd(player.nick || player.id || "игрок");
+  const profileBalance = Number(player.balance || 0).toLocaleString("ru-RU");
+  const used = (player.used_promos && Array.isArray(player.used_promos) && player.used_promos.length)
+    ? player.used_promos.map((c) => escapeMd(c)).join(", ")
+    : "нет активных";
+
+  const text = "⚡ *BR Simulator*\n" +
+    "Добро пожаловать, *" + profileNick + "*!\n\n" +
+    "💼 Ваш баланс: *" + profileBalance + " BC*\n" +
+    "🎟 Использовано промокодов: " + used + "\n\n" +
+    "Выберите нужную кнопку ниже для управления профилем и прогрессом.";
+
+  await sendMessage(chatId, text, {
+    parse_mode: "MarkdownV2",
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: "💰 Баланс", callback_data: "pl:balance" }, { text: "📦 Инвентарь", callback_data: "pl:inventory:0" }],
+        [{ text: "🎁 Промокод", callback_data: "pl:promo" }, { text: "📞 Поддержка", callback_data: "pl:support" }],
+        [{ text: "📊 Статистика", callback_data: "pl:stats" }],
+      ],
+    },
+  });
 }
 
 async function sendInventoryPage(chatId, player, page) {
@@ -586,17 +595,52 @@ async function handleMessage(msg, runtime) {
   const text = String(msg.text || "").trim();
 
   if (chat.type === "private") {
+    if (text === "/start") {
+      const player = await ensureLinkedPlayer(from, runtime);
+      if (!player) {
+        await sendMessage(chat.id, "⚠️ Не удалось загрузить ваш профиль. Попробуйте позднее.");
+        return;
+      }
+      await sendPlayerMainMenu(chat.id, player);
+      return;
+    }
+    if (text === "/help") {
+      await sendMessage(chat.id,
+        "ℹ️ *Помощь (игрок)*\n\n" +
+        "/start - главное меню и профиль\n" +
+        "/help - это сообщение\n" +
+        "По кнопкам: Баланс, Инвентарь, Промокод, Техподдержка, Статистика\n\n" +
+        "*Совет:* используйте кнопки меню, чтобы быстрее управлять системой.",
+        { parse_mode: "MarkdownV2" }
+      );
+      return;
+    }
     return await handlePrivateMessage(msg, runtime);
   }
 
   if (Number(chat.id) === Number(runtime.adminChatId)) {
+    if (text === "/help") {
+      await sendMessage(chat.id,
+        "ℹ️ *Помощь (админ)*\n\n" +
+        "/start - приветственное сообщение (в личке игрокам)\n" +
+        "/help - это сообщение\n" +
+        "/broadcast - рассылка (текст)\n" +
+        "/top - топ игроков\n" +
+        "/promos - список и формирование промокодов\n" +
+        "/edit_player [ID|ник] - профиль игрока\n\n" +
+        "Используйте кнопки в админ-теме для быстрого управления.",
+        { parse_mode: "MarkdownV2" }
+      );
+      return;
+    }
     return await handleAdminChatMessage(msg, runtime);
   }
 
   if (text === "/start") {
-    await sendMessage(chat.id, "Бот работает в ЛС и в админ-чате.");
+    await sendMessage(chat.id, "Привет! Этот бот работает в ЛС и в админ-чате.");
   }
 }
+
 
 async function handlePrivateMessage(msg, runtime) {
   const from = msg.from || {};
