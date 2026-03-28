@@ -127,9 +127,6 @@ async function supabasePatch(table, filters, body) {
 }
 
 async function sendMessage(chatId, text, extra = {}) {
-  if (extra && extra.parse_mode === "MarkdownV2") {
-    text = escapeMarkdownV2(text);
-  }
   const payload = { chat_id: chatId, text, ...extra };
   const res = await tgApi("sendMessage", payload);
   return res;
@@ -235,12 +232,35 @@ async function updatePlayerFields(playerId, fields) {
   return await supabasePatch("players", { id: `eq.${playerId}` }, fields);
 }
 
+async function getConfigPromocodes() {
+  const rows = await supabaseSelect("config", { select: "promocodes", id: "eq.global", limit: "1" });
+  if (!rows || !rows.length) return [];
+  const promoList = rows[0].promocodes;
+  return Array.isArray(promoList) ? promoList : [];
+}
+
 async function getPromoByCode(code) {
-  const rows = await supabaseSelect("promocodes", { select: "code,reward,is_active", code: `eq.${code}`, limit: "1" });
+  const normalized = String(code || "").trim().toUpperCase();
+  if (!normalized) return null;
+
+  const promos = await getConfigPromocodes();
+  const found = promos.find((p) => String(p.code || "").trim().toUpperCase() === normalized);
+  if (found) {
+    return { code: normalized, reward: Number(found.reward || 0), is_active: found.is_active !== false };
+  }
+
+  const rows = await supabaseSelect("promocodes", { select: "code,reward,is_active", code: `eq.${normalized}`, limit: "1" });
   return rows && rows.length ? rows[0] : null;
 }
 
 async function getActivePromos() {
+  const promos = await getConfigPromocodes();
+  if (Array.isArray(promos) && promos.length) {
+    return promos
+      .map((p) => ({ code: String(p.code || "").toUpperCase(), reward: Number(p.reward || 0), is_active: p.is_active !== false }))
+      .sort((a, b) => String(a.code || "").localeCompare(String(b.code || "")));
+  }
+
   try {
     return await supabaseSelect("promocodes", { select: "code,reward,is_active", is_active: "eq.true", order: "code.asc", limit: "200" }) || [];
   } catch (e) {
@@ -250,8 +270,32 @@ async function getActivePromos() {
 }
 
 async function upsertPromo(code, reward) {
-  const row = { code: String(code || "").toUpperCase(), reward: Number(reward || 0), is_active: true, updated_at: new Date().toISOString() };
-  return await supabaseInsert("promocodes", [row], "code");
+  const normalizedCode = String(code || "").trim().toUpperCase();
+  const normalizedReward = Number(reward || 0);
+  if (!normalizedCode || normalizedReward <= 0) {
+    throw new Error("Неверный код или сумма для промокода");
+  }
+
+  const existingPromos = await getConfigPromocodes();
+  const nextPromos = Array.isArray(existingPromos) ? [...existingPromos] : [];
+  const idx = nextPromos.findIndex((p) => String(p.code || "").trim().toUpperCase() === normalizedCode);
+
+  if (idx >= 0) {
+    nextPromos[idx] = { ...nextPromos[idx], code: normalizedCode, reward: normalizedReward, is_active: true };
+  } else {
+    nextPromos.push({ code: normalizedCode, reward: normalizedReward, is_active: true });
+  }
+
+  nextPromos.sort((a, b) => String((a.code || "").toUpperCase()).localeCompare(String((b.code || "").toUpperCase())));
+
+  const inserted = await supabaseInsert("config", [{ id: "global", promocodes: nextPromos }], "id");
+  if (!inserted || !inserted.length) {
+    // fallback to patch for existing record
+    await supabasePatch("config", { id: "eq.global" }, { promocodes: nextPromos });
+    return { code: normalizedCode, reward: normalizedReward, is_active: true };
+  }
+
+  return inserted[0];
 }
 
 function buildNickFromTg(tgUser) {
@@ -309,10 +353,10 @@ async function safeLogError(err, where) {
 }
 
 async function sendPlayerMainMenu(chatId, player) {
-  const profileNick = player.nick || player.id || "Игрок";
+  const profileNick = escapeMd(player.nick || player.id || "Игрок");
   const profileBalance = Number(player.balance || 0).toLocaleString("ru-RU");
   const usedText = (player.used_promos && Array.isArray(player.used_promos) && player.used_promos.length)
-    ? player.used_promos.join(", ")
+    ? player.used_promos.map((p) => escapeMd(String(p))).join(", ")
     : "нет активных";
 
   const text = "⚡ BR Simulator\n" +
@@ -346,7 +390,7 @@ async function sendInventoryPage(chatId, player, page) {
   } else {
     for (let i = 0; i < part.length; i++) {
       const it = part[i] || {};
-      txt += "\n" + (start + i + 1) + ". " + (it.name || "Unknown") + "\n   Редкость: " + (it.rarity || "-") + " | Цена: " + Number(it.value || 0) + " BC";
+      txt += "\n" + (start + i + 1) + ". " + escapeMd(it.name || "Unknown") + "\n   Редкость: " + escapeMd(it.rarity || "-") + " | Цена: " + Number(it.value || 0) + " BC";
     }
   }
 
@@ -387,7 +431,7 @@ async function activatePromoForPlayer(player, inputCode, runtime, chatId) {
   const nextBalance = Number(player.balance || 0) + reward;
   await updatePlayerFields(player.id, { balance: nextBalance, used_promos: used, telegram_id: Number(player.telegram_id || 0), telegram_username: String(player.telegram_username || "") });
 
-  await sendMessage(chatId, `🎉 Промокод активирован\n💰 Начислено: *${reward} BC*`, {
+  await replaceOrSendMessage(chatId, `🎉 Промокод активирован\n💰 Начислено: *${reward} BC*`, {
     parse_mode: "MarkdownV2",
     reply_markup: { inline_keyboard: [[{ text: "🔵 Показать баланс", callback_data: "pl:show_balance" }]] },
   });
@@ -525,15 +569,15 @@ async function handlePlayerCallback(cq, player, runtime) {
     const page = Number(data.split(":")[2] || 0);
     await sendInventoryPage(chatId, player, page); return;
   }
-  if (data === "pl:promo") { setState(stateKey(USER_STATE_PREFIX, Number(cq.from.id)), { mode: "await_promo_code" }, 600); await sendMessage(chatId, "🎁 Введите промокод одним сообщением."); return; }
-  if (data === "pl:support") { setState(stateKey(USER_STATE_PREFIX, Number(cq.from.id)), { mode: "await_support_text" }, 1800); await sendMessage(chatId, "📞 Напишите сообщение для техподдержки.\n\nОпишите проблему как можно подробнее."); return; }
+  if (data === "pl:promo") { setState(stateKey(USER_STATE_PREFIX, Number(cq.from.id)), { mode: "await_promo_code" }, 600); await replaceOrSendMessage(chatId, "🎁 Введите промокод одним сообщением.", { parse_mode: "MarkdownV2" }); return; }
+  if (data === "pl:support") { setState(stateKey(USER_STATE_PREFIX, Number(cq.from.id)), { mode: "await_support_text" }, 1800); await replaceOrSendMessage(chatId, "📞 Напишите сообщение для техподдержки.\n\nОпишите проблему как можно подробнее.", { parse_mode: "MarkdownV2" }); return; }
   if (data === "pl:stats") {
     const stats = player.stats || {};
     const opened = Number(stats.opened || 0);
     const soldItems = Number(stats.itemsSold || 0);
     const soldValue = Number(stats.valueSold || 0);
     const fav = detectFavoriteCase(stats);
-    await sendMessage(chatId, `📊 *Статистика*\n📦 Открыто кейсов: *${opened}*\n🧾 Продано предметов: *${soldItems}*\n💸 На сумму: *${soldValue.toLocaleString("ru-RU")}*\n❤️ Любимый кейс: *${escapeMd(fav)}*`, { parse_mode: "MarkdownV2", reply_markup: { inline_keyboard: [[{ text: "◀️ Меню", callback_data: "pl:menu" }]] } });
+    await replaceOrSendMessage(chatId, `📊 *Статистика*\n📦 Открыто кейсов: *${opened}*\n🧾 Продано предметов: *${soldItems}*\n💸 На сумму: *${soldValue.toLocaleString("ru-RU")}*\n❤️ Любимый кейс: *${escapeMd(fav)}*`, { parse_mode: "MarkdownV2", reply_markup: { inline_keyboard: [[{ text: "◀️ Меню", callback_data: "pl:menu" }]] } });
     return;
   }
 }
