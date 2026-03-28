@@ -342,7 +342,7 @@ async function activatePromoForPlayer(player, inputCode, runtime, chatId) {
     reply_markup: { inline_keyboard: [[{ text: "🔵 Показать баланс", callback_data: "pl:show_balance" }]] },
   });
 
-  await sendToTopic(runtime.topics.actions, `🎁 *Активация промокода*\n👤 Игрок: ${escapeMd(player.nick || player.id)}\n🏷️ Код: \\`${escapeMd(code)}\\`\n💰 Награда: ${reward} BC`, runtime, { parse_mode: "MarkdownV2" });
+  await sendToTopic(runtime.topics.actions, `🎁 *Активация промокода*\n👤 Игрок: ${escapeMd(player.nick || player.id)}\n🏷️ Код: \`${escapeMd(code)}\`\n💰 Награда: ${reward} BC`, runtime, { parse_mode: "MarkdownV2" });
 }
 
 async function processSupportMessage(player, text, runtime, from) {
