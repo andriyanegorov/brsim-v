@@ -126,9 +126,8 @@ async function supabasePatch(table, filters, body) {
 }
 
 async function sendMessage(chatId, text, extra = {}) {
-  // Сквозное экранирование для parse_mode MarkdownV2: экранируем скобки, т.к. бывают от пользователей
   if (extra && extra.parse_mode === "MarkdownV2") {
-    text = text.replace(/([()])/g, "\\$1");
+    text = escapeMarkdownV2(text);
   }
   const payload = { chat_id: chatId, text, ...extra };
   const res = await tgApi("sendMessage", payload);
@@ -237,7 +236,12 @@ function buildNickFromTg(tgUser) {
 }
 
 function escapeMd(s) {
-  return String(s || "").replace(/([_*\[\]()~`>#+\-=|{}.!])/g, "\\$1");
+  return String(s || "").replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, "\\$1");
+}
+
+function escapeMarkdownV2(s) {
+  if (typeof s !== "string") s = String(s || "");
+  return s.replace(/([_\*\[\]\(\)~`>#+\-=|{}.!\\])/g, "\\$1");
 }
 
 async function createSupportThread(player, runtime) {
