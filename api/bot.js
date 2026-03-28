@@ -241,7 +241,7 @@ async function createSupportThread(player, runtime) {
   store.supportThread.set(SUPPORT_THREAD_PREFIX + threadId, Number(player.telegram_id || 0));
   store.supportPlayer.set(SUPPORT_PLAYER_PREFIX + Number(player.telegram_id || 0), threadId);
 
-  await sendToTopic(threadId, `🆕 *Новый тикет*\n👤 Игрок: ${escapeMd(player.nick || player.id)}\n🆔 Telegram ID: \\`${player.telegram_id}\\``, runtime, { parse_mode: "MarkdownV2" });
+  await sendToTopic(threadId, `🆕 *Новый тикет*\n👤 Игрок: ${escapeMd(player.nick || player.id)}\n🆔 Telegram ID: \`${player.telegram_id}\``, runtime, { parse_mode: "MarkdownV2" });
   await sendToTopic(runtime.topics.support, `💬 Создан новый тикет: thread ${threadId} для игрока ${escapeMd(player.nick || player.id)}`, runtime, { parse_mode: "MarkdownV2" });
   return threadId;
 }
@@ -714,30 +714,46 @@ async function handleCallbackQuery(cq, runtime) {
 
 export default async function handler(req, res) {
   try {
+    const runtime = buildRuntimeConfig();
+    console.log("[handler] method", req.method);
+    console.log("[handler] runtime", {
+      botTokenSet: !!runtime.botToken,
+      supabaseUrlSet: !!runtime.supabaseUrl,
+      supabaseAnonKeySet: !!runtime.supabaseAnonKey,
+      adminChatId: runtime.adminChatId,
+      adminIds: runtime.adminIds,
+      topics: runtime.topics
+    });
+
     if (req.method === "GET") {
-      return res.status(200).send("BR Simulator Bot is running");
+      return res.status(200).json({ ok: true, message: "BR Simulator Bot is running", runtime });
     }
 
     if (req.method !== "POST") {
       return res.status(405).send("Method not allowed");
     }
 
-    const runtime = buildRuntimeConfig();
     if (!runtime.botToken || !runtime.supabaseUrl || !runtime.supabaseAnonKey) {
-      return res.status(500).json({ ok: false, error: "Missing required script properties: TG_BOT_TOKEN / SUPABASE_URL / SUPABASE_ANON_KEY" });
+      const errMsg = "Missing required script properties: TG_BOT_TOKEN / SUPABASE_URL / SUPABASE_ANON_KEY";
+      console.error("[handler] ", errMsg);
+      return res.status(500).json({ ok: false, error: errMsg });
     }
 
     const update = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    console.log("[handler] update", JSON.stringify(update).slice(0, 1000));
 
     if (update.callback_query) {
       await handleCallbackQuery(update.callback_query, runtime);
     } else if (update.message) {
       await handleMessage(update.message, runtime);
+    } else {
+      console.log("[handler] no message/callback_query in update");
     }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
     await safeLogError(err, "doPost");
+    console.error("[handler] error", err);
     return res.status(500).json({ ok: false, error: String(err && err.message ? err.message : err) });
   }
 }
