@@ -298,7 +298,7 @@ function getSupportThreadByPlayer(tgId) {
 async function safeLogError(err, where) {
   try {
     const runtime = buildRuntimeConfig();
-    const msg = `⚠️ *ОШИБКА*\n📍 Где: ${escapeMd(where || "unknown")}\n🧾 Текст: ${escapeMd(String(err && err.message ? err.message : err))}\n🕒 ${escapeMd(new Date().toISOString())}`;
+    const msg = `⚠️ ОШИБКА\n📍 Где: ${escapeMd(where || "unknown")}\n🧾 Текст: ${escapeMd(String(err && err.message ? err.message : err))}\n🕒 ${escapeMd(new Date().toISOString())}`;
     if (runtime.topics && runtime.topics.errors) {
       await sendToTopic(runtime.topics.errors, msg, runtime, { parse_mode: "MarkdownV2" });
     }
@@ -469,17 +469,17 @@ async function adminSendTop(chatId, threadId, runtime) {
     return { id: p.id, nick: p.nick, balance: Number(p.balance || 0), invValue, score: Number(p.balance || 0) + invValue };
   }).sort((a, b) => b.score - a.score).slice(0, 25);
 
-  let text = "🏆 *Топ-25 игроков*\n\n";
+  let text = "🏆 Топ-25 игроков\n\n";
   for (let j = 0; j < scored.length; j++) {
     const s = scored[j];
-    text += `${j+1}. ${escapeMd(s.nick || s.id)} — *${s.score.toLocaleString("ru-RU")}*\n`;
+    text += `${j+1}. ${escapeMd(s.nick || s.id)} — ${s.score.toLocaleString("ru-RU")}\n`;
   }
   await sendMessage(chatId, text, { parse_mode: "MarkdownV2", message_thread_id: threadId });
 }
 
 async function adminSendPromos(chatId, threadId, runtime) {
   const promos = await getActivePromos();
-  let txt = "🎁 *Активные промокоды*\n\n";
+  let txt = "🎁 Активные промокоды\n\n";
   if (!promos.length) txt += "Пусто";
   else for (let i = 0; i < promos.length; i++) txt += "• `" + escapeMd(promos[i].code) + "` — *" + Number(promos[i].reward || 0) + " BC*\n";
 
@@ -492,7 +492,7 @@ async function broadcastToAllPlayers(text, runtime) {
   for (let i = 0; i < rows.length; i++) {
     const tgId = Number(rows[i].telegram_id || 0);
     if (!tgId) continue;
-    const r = await sendMessage(tgId, `📢 *Сообщение от администрации*\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
+    const r = await sendMessage(tgId, `📢 Сообщение от администрации\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
     if (r && r.ok) sent++;
   }
   return sent;
@@ -501,7 +501,7 @@ async function broadcastToAllPlayers(text, runtime) {
 async function broadcastToIds(ids, text, runtime) {
   const sent = [];
   for (const id of ids) {
-    const r = await sendMessage(id, `📢 *Сообщение от администрации*\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
+    const r = await sendMessage(id, `📢 Сообщение от администрации\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
     if (r && r.ok) sent.push(id);
   }
   return sent;
@@ -513,7 +513,7 @@ async function handlePlayerCallback(cq, player, runtime) {
 
   if (data === "pl:balance" || data === "pl:show_balance") {
     const balanceText = "💰 *Ваш баланс:* `" + Number(player.balance || 0).toLocaleString("ru-RU") + " BC`";
-    await sendMessage(chatId, balanceText, {
+    await replaceOrSendMessage(chatId, balanceText, {
       parse_mode: "MarkdownV2",
       reply_markup: { inline_keyboard: [[{ text: "🔵 Обновить", callback_data: "pl:balance" }], [{ text: "◀️ Меню", callback_data: "pl:menu" }]] }
     });
