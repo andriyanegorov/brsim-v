@@ -128,8 +128,18 @@ async function supabasePatch(table, filters, body) {
 
 async function sendMessage(chatId, text, extra = {}) {
   const payload = { chat_id: chatId, text, ...extra };
-  const res = await tgApi("sendMessage", payload);
-  return res;
+  try {
+    return await tgApi("sendMessage", payload);
+  } catch (err) {
+    const isMd = extra && String(extra.parse_mode || "").toLowerCase() === "markdownv2";
+    const errText = String(err && err.message ? err.message : "");
+    if (isMd && /parse entities/i.test(errText)) {
+      const escaped = escapeMarkdownV2(text);
+      const payloadEscaped = { chat_id: chatId, text: escaped, ...extra };
+      return await tgApi("sendMessage", payloadEscaped);
+    }
+    throw err;
+  }
 }
 
 async function sendToPlayer(telegramId, text, extra = {}) {
