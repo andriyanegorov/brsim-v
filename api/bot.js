@@ -126,9 +126,17 @@ async function supabasePatch(table, filters, body) {
 }
 
 async function sendMessage(chatId, text, extra = {}) {
+  // Сквозное экранирование для parse_mode MarkdownV2: экранируем скобки, т.к. бывают от пользователей
+  if (extra && extra.parse_mode === "MarkdownV2") {
+    text = text.replace(/([()])/g, "\\$1");
+  }
   const payload = { chat_id: chatId, text, ...extra };
   const res = await tgApi("sendMessage", payload);
   return res.ok;
+}
+
+async function sendToPlayer(telegramId, text, extra = {}) {
+  return await sendMessage(Number(telegramId), text, extra);
 }
 
 async function answerCallbackQuery(callbackQueryId, text) {
