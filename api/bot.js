@@ -298,14 +298,33 @@ async function upsertPromo(code, reward) {
 
   nextPromos.sort((a, b) => String((a.code || "").toUpperCase()).localeCompare(String((b.code || "").toUpperCase())));
 
-  const inserted = await supabaseInsert("config", [{ id: "global", promocodes: nextPromos }], "id");
-  if (!inserted || !inserted.length) {
-    // fallback to patch for existing record
-    await supabasePatch("config", { id: "eq.global" }, { promocodes: nextPromos });
+  let inserted = null;
+  try {
+    inserted = await supabaseInsert("config", [{ id: "global", promocodes: nextPromos }], "id");
+    if (inserted && inserted.length) {
+      return inserted[0];
+    }
+  } catch (err) {
+    const text = String(err && err.message ? err.message : "").toLowerCase();
+    if (!text.includes("duplicate key value") && !text.includes("409")) {
+      throw err;
+    }
+    // duplicate key on primary key -> запись уже есть, будем обновлять
+  }
+
+  // Пытаемся обновить существующую запись или создать, если вдруг не было.
+  try {
+    const patchRes = await supabasePatch("config", { id: "eq.global" }, { promocodes: nextPromos });
+    if (patchRes && (!Array.isArray(patchRes) || patchRes.length > 0)) {
+      return { code: normalizedCode, reward: normalizedReward, is_active: true };
+    }
+  } catch (err) {
+    // если patch упал, пробуем insert без on_conflict
+    await supabaseInsert("config", [{ id: "global", promocodes: nextPromos }]);
     return { code: normalizedCode, reward: normalizedReward, is_active: true };
   }
 
-  return inserted[0];
+  return { code: normalizedCode, reward: normalizedReward, is_active: true };
 }
 
 function buildNickFromTg(tgUser) {
