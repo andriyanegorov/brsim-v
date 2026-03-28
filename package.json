@@ -1,0 +1,10 @@
+{
+  "name": "br-simulator-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot backend for Black Russia Simulator deployed on Vercel",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "vercel dev"
+  }
+}
