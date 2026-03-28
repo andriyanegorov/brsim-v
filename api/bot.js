@@ -309,19 +309,19 @@ async function safeLogError(err, where) {
 }
 
 async function sendPlayerMainMenu(chatId, player) {
-  const profileNick = escapeMd(player.nick || player.id || "игрок");
+  const profileNick = player.nick || player.id || "Игрок";
   const profileBalance = Number(player.balance || 0).toLocaleString("ru-RU");
-  const used = (player.used_promos && Array.isArray(player.used_promos) && player.used_promos.length)
-    ? player.used_promos.map((c) => escapeMd(c)).join(", ")
+  const usedText = (player.used_promos && Array.isArray(player.used_promos) && player.used_promos.length)
+    ? player.used_promos.join(", ")
     : "нет активных";
 
-  const text = "⚡ *BR Simulator*\n" +
-    "Добро пожаловать, *" + profileNick + "*!\n\n" +
-    "💼 Ваш баланс: *" + profileBalance + " BC*\n" +
-    "🎟 Использовано промокодов: " + used + "\n\n" +
-    "Выберите нужную кнопку ниже для управления профилем и прогрессом.";
+  const text = "⚡ BR Simulator\n" +
+    "Привет, " + profileNick + "!\n\n" +
+    "💼 Баланс: " + profileBalance + " BC\n" +
+    "🎟 Промокоды: " + usedText + "\n\n" +
+    "Выберите действие из меню ниже.";
 
-  await sendMessage(chatId, text, {
+  await replaceOrSendMessage(chatId, text, {
     parse_mode: "MarkdownV2",
     reply_markup: {
       inline_keyboard: [
@@ -340,22 +340,22 @@ async function sendInventoryPage(chatId, player, page) {
   const start = safePage * PAGE_SIZE_INV;
   const part = inv.slice(start, start + PAGE_SIZE_INV);
 
-  let txt = `📦 *Инвентарь*\nСтраница ${safePage + 1} / ${totalPages}\n`;
+  let txt = "📦 Инвентарь\nСтраница " + (safePage + 1) + " / " + totalPages + "\n";
   if (!part.length) {
     txt += "\nПусто";
   } else {
     for (let i = 0; i < part.length; i++) {
       const it = part[i] || {};
-      txt += `\n${start + i + 1}. ${escapeMd(it.name || "Unknown")}\n   Редкость: ${escapeMd(String(it.rarity || "-"))} | Цена: ${Number(it.value || 0)} BC\n`;
+      txt += "\n" + (start + i + 1) + ". " + (it.name || "Unknown") + "\n   Редкость: " + (it.rarity || "-") + " | Цена: " + Number(it.value || 0) + " BC";
     }
   }
 
   const navRow = [];
-  if (safePage > 0) navRow.push({ text: "⬅️", callback_data: `pl:inventory:${safePage - 1}` });
-  navRow.push({ text: "◀️ Меню", callback_data: "pl:menu" });
-  if (safePage < totalPages - 1) navRow.push({ text: "➡️", callback_data: `pl:inventory:${safePage + 1}` });
+  if (safePage > 0) navRow.push({ text: "◀️ Назад", callback_data: `pl:inventory:${safePage - 1}` });
+  navRow.push({ text: "🔄 Меню", callback_data: "pl:menu" });
+  if (safePage < totalPages - 1) navRow.push({ text: "⏭️ Вперед", callback_data: `pl:inventory:${safePage + 1}` });
 
-  await sendMessage(chatId, txt, { parse_mode: "MarkdownV2", reply_markup: { inline_keyboard: [navRow] } });
+  await replaceOrSendMessage(chatId, txt, { parse_mode: "MarkdownV2", reply_markup: { inline_keyboard: [navRow] } });
 }
 
 async function activatePromoForPlayer(player, inputCode, runtime, chatId) {
