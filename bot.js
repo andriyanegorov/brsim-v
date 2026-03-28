@@ -431,7 +431,7 @@ async function adminSendPromos(chatId, threadId, runtime) {
   const promos = await getActivePromos();
   let txt = "🎁 *Активные промокоды*\n\n";
   if (!promos.length) txt += "Пусто";
-  else for (let i = 0; i < promos.length; i++) txt += `• \\`${escapeMd(promos[i].code)}\\` — *${Number(promos[i].reward || 0)} BC*\n`;
+  else for (let i = 0; i < promos.length; i++) txt += `• \`${escapeMd(promos[i].code)}\` — *${Number(promos[i].reward || 0)} BC*\n`;
 
   await sendMessage(chatId, txt, { parse_mode: "MarkdownV2", message_thread_id: threadId, reply_markup: { inline_keyboard: [[{ text: "🟩 ➕ Создать", callback_data: "ad:promos:create" }]] } });
 }
