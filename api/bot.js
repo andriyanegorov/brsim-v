@@ -11,6 +11,7 @@ const store = {
   state: new Map(),
   supportThread: new Map(),
   supportPlayer: new Map(),
+  lastMessage: new Map(), // для замены старого сообщения на новое
 };
 
 function parseIdList(s) {
@@ -131,11 +132,40 @@ async function sendMessage(chatId, text, extra = {}) {
   }
   const payload = { chat_id: chatId, text, ...extra };
   const res = await tgApi("sendMessage", payload);
-  return res.ok;
+  return res;
 }
 
 async function sendToPlayer(telegramId, text, extra = {}) {
   return await sendMessage(Number(telegramId), text, extra);
+}
+
+async function sendOrReplaceMessage(chatId, text, extra = {}) {
+  const msg = await sendMessage(chatId, text, extra);
+  if (msg && msg.result && msg.result.message_id) {
+    store.lastMessage.set(chatId, msg.result.message_id);
+  }
+  return msg;
+}
+
+async function replaceOrSendMessage(chatId, text, extra = {}) {
+  const messageId = store.lastMessage.get(chatId);
+  if (messageId) {
+    try {
+      const payload = { chat_id: chatId, message_id: messageId, text, parse_mode: "MarkdownV2" };
+      if (extra.reply_markup) payload.reply_markup = extra.reply_markup;
+      const res = await tgApi("editMessageText", payload);
+      if (res && res.ok) {
+        return res;
+      }
+    } catch (e) {
+      // fallback: отправляем новое сообщение
+    }
+  }
+  const result = await sendMessage(chatId, text, extra);
+  if (result && result.result && result.result.message_id) {
+    store.lastMessage.set(chatId, result.result.message_id);
+  }
+  return result;
 }
 
 async function answerCallbackQuery(callbackQueryId, text) {
@@ -462,8 +492,8 @@ async function broadcastToAllPlayers(text, runtime) {
   for (let i = 0; i < rows.length; i++) {
     const tgId = Number(rows[i].telegram_id || 0);
     if (!tgId) continue;
-    const ok = await sendMessage(tgId, `📢 *Сообщение от администрации*\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
-    if (ok) sent++;
+    const r = await sendMessage(tgId, `📢 *Сообщение от администрации*\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
+    if (r && r.ok) sent++;
   }
   return sent;
 }
@@ -471,8 +501,8 @@ async function broadcastToAllPlayers(text, runtime) {
 async function broadcastToIds(ids, text, runtime) {
   const sent = [];
   for (const id of ids) {
-    const ok = await sendMessage(id, `📢 *Сообщение от администрации*\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
-    if (ok) sent.push(id);
+    const r = await sendMessage(id, `📢 *Сообщение от администрации*\n\n${escapeMd(text)}`, { parse_mode: "MarkdownV2" });
+    if (r && r.ok) sent.push(id);
   }
   return sent;
 }
