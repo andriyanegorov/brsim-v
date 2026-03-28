@@ -144,9 +144,8 @@ async function answerCallbackQuery(callbackQueryId, text) {
 
 async function sendToTopic(topicId, text, runtime, extra = {}) {
   if (!topicId || !runtime || !runtime.adminChatId) return false;
-  const payload = { chat_id: runtime.adminChatId, message_thread_id: topicId, text, ...extra };
-  const res = await tgApi("sendMessage", payload);
-  return res.ok;
+  // Reuse sendMessage to ensure MarkdownV2 escaping logic is applied consistently.
+  return await sendMessage(runtime.adminChatId, text, { message_thread_id: topicId, ...extra });
 }
 
 function isAdmin(userId, runtime) {
