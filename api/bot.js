@@ -907,7 +907,7 @@ export default async function handler(req, res) {
     const allowedOrigins = [
       "http://127.0.0.1:5500",
       "http://localhost:5500",
-      "https://black-russia-simulator.vercel.app",
+      "https://brsim-v.vercel.app/",
     ];
 
     if (requestOrigin && allowedOrigins.includes(requestOrigin)) {

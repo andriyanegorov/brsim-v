@@ -16,7 +16,7 @@ function setCorsHeaders(req, res) {
     .filter(Boolean);
 
   const defaultOrigins = [
-    "https://black-russia-simulator.vercel.app",
+    "https://brsim-v.vercel.app/",
     "http://127.0.0.1:5500",
     "http://localhost:5500",
   ];
