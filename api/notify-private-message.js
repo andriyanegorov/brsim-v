@@ -10,18 +10,56 @@ const TG_BOT_TOKEN = process.env.TG_BOT_TOKEN || "";
 
 function setCorsHeaders(req, res) {
   const requestOrigin = String((req && req.headers && req.headers.origin) || "");
-  const allowedOrigin = process.env.CORS_ALLOW_ORIGIN || "*";
+  const envOrigins = String(process.env.CORS_ALLOW_ORIGIN || "")
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
 
-  if (allowedOrigin === "*") {
+  const defaultOrigins = [
+    "https://black-russia-simulator.vercel.app",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+  ];
+
+  const allowedOrigins = envOrigins.length ? envOrigins : defaultOrigins;
+  const allowAny = allowedOrigins.includes("*");
+
+  if (allowAny) {
     res.setHeader("Access-Control-Allow-Origin", "*");
-  } else if (requestOrigin && requestOrigin === allowedOrigin) {
+  } else if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
     res.setHeader("Access-Control-Allow-Origin", requestOrigin);
   }
 
   res.setHeader("Vary", "Origin");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Max-Age", "86400");
+}
+
+function parseRequestPayload(req) {
+  const body = req && req.body;
+
+  if (body && typeof body === "object") {
+    return body;
+  }
+
+  if (typeof body === "string") {
+    const raw = body.trim();
+    if (!raw) return {};
+
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      const params = new URLSearchParams(raw);
+      return {
+        receiver_id: params.get("receiver_id") || "",
+        sender_nick: params.get("sender_nick") || "",
+        message: params.get("message") || "",
+      };
+    }
+  }
+
+  return {};
 }
 
 async function supabaseSelect(table, query) {
@@ -131,11 +169,16 @@ export default async function handler(req, res) {
       return res.status(204).end();
     }
 
+    if (req.method === "GET") {
+      return res.status(200).json({ ok: true, message: "notify-private-message ready" });
+    }
+
     if (req.method !== "POST") {
       return res.status(405).json({ ok: false, error: "Method not allowed" });
     }
-    
-    const { receiver_id, sender_nick, message } = req.body || {};
+
+    const payload = parseRequestPayload(req);
+    const { receiver_id, sender_nick, message } = payload;
     
     if (!receiver_id || !sender_nick || !message) {
       return res.status(400).json({ 
