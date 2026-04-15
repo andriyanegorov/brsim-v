@@ -499,9 +499,9 @@ async function notifyPlayerAboutPrivateMessage(receiverId, senderNick, messageTe
   }
 
   const msgPreview = String(messageText || "").substring(0, 100);
-  const text = `💬 *Новое личное сообщение в игре!*\n\n` +
+  const text = `💬 **Новое личное сообщение в игре!**\n\n` +
     `👤 От: *${escapeMd(senderNick)}*\n` +
-    `📝 Сообщение: _${escapeMd(msgPreview)}${messageText && messageText.length > 100 ? "..." : ""}_\n\n` +
+    `📝 Сообщение: ${escapeMd(msgPreview)}${messageText && messageText.length > 100 ? "..." : ""}\n\n` +
     `🎮 *Перейти в игру и ответить*`;
 
   const keyboard = {
