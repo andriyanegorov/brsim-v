@@ -928,7 +928,28 @@ export default async function handler(req, res) {
       return res.status(500).json({ ok: false, error: errMsg });
     }
 
-    const update = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    let update = req.body;
+    if (typeof update === "string") {
+      try {
+        update = JSON.parse(update);
+      } catch (e) {
+        update = {};
+      }
+    }
+
+    if (update && update.type === "private_message_notify") {
+      const receiverId = String(update.receiver_id || "").trim();
+      const senderNick = String(update.sender_nick || "").trim();
+      const messageText = String(update.message || "").trim();
+
+      if (!receiverId || !senderNick || !messageText) {
+        return res.status(400).json({ ok: false, error: "Missing required fields: receiver_id, sender_nick, message" });
+      }
+
+      await notifyPlayerAboutPrivateMessage(receiverId, senderNick, messageText, runtime);
+      return res.status(200).json({ ok: true, notified: true });
+    }
+
     console.log("[handler] update", JSON.stringify(update).slice(0, 1000));
 
     if (update.callback_query) {
