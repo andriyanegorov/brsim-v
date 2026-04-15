@@ -1,0 +1,1080 @@
+[
+  {
+    "name": "Побитые Очки",
+    "value": "10",
+    "rarity": "gray",
+    "image": "img/brokeglass.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Очки \"Street\"",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/streetglass.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска \"Снеговик\"",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/snowmanhat.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Шапка \"НГ Ушанка 24\"",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/yshankahat.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Бронежилет \"Sunray\"",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/sunray.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Детский Спасательный Жилет",
+    "value": "40",
+    "rarity": "gray",
+    "image": "img/detspasjil.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Шлема MechaCat",
+    "value": "50",
+    "rarity": "green",
+    "image": "img/mechacat.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Пакет",
+    "value": "50",
+    "rarity": "green",
+    "image": "img/packet.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Новогодний Мешок",
+    "value": "60",
+    "rarity": "gray",
+    "image": "img/meshok.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска Дали",
+    "value": "70",
+    "rarity": "green",
+    "image": "img/dali.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "BR VISUALS MAX",
+    "value": "70",
+    "rarity": "green",
+    "image": "img/vr.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Рюкзак \"Мопс\"",
+    "value": "80",
+    "rarity": "green",
+    "image": "img/mops.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Демонические Рожки",
+    "value": "100",
+    "rarity": "green",
+    "image": "img/demon.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Рюкзак \"Акула\"",
+    "value": "120",
+    "rarity": "green",
+    "image": "img/shark.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска \"Иноске\"",
+    "value": "130",
+    "rarity": "green",
+    "image": "img/inoske.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Крылья Демона",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/demonfly.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Кейс Снеговик",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/casesnegovik.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска \"Дед Мороз\"",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/dedmaska.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска \"Елочка\"",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/elkamask.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Корона Короля",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/korona.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска Ведущего",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/squid.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Новогодний Топорик",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/newyearaxe.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Посох со Льдом",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/posoh.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Посох со Снежинкой",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/snegposoh.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Очки \"Снежинки\"",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/snegglass.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Шапка \"Новогодняя\"",
+    "value": "250",
+    "rarity": "blue",
+    "image": "img/roghat.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Крылья Ангела",
+    "value": "300",
+    "rarity": "purple",
+    "image": "img/krylia.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Шлем \"Велосипедист\"",
+    "value": "300",
+    "rarity": "purple",
+    "image": "img/bicycle.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Голова Коня",
+    "value": "400",
+    "rarity": "purple",
+    "image": "img/konya.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Надувной Жилет",
+    "value": "400",
+    "rarity": "purple",
+    "image": "img/nadyvji.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Очки \"Сердечки\"",
+    "value": "500",
+    "rarity": "purple",
+    "image": "img/heartglass.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Серый Кейс",
+    "value": "500",
+    "rarity": "purple",
+    "image": "img/graycase.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Маска Чилл",
+    "value": "1300",
+    "rarity": "gold",
+    "image": "img/chill.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Водяной Пистолет",
+    "value": "1400",
+    "rarity": "gold",
+    "image": "img/vodyanoi.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Рюкзак Боксера",
+    "value": "1700",
+    "rarity": "gold",
+    "image": "img/boxer.png",
+    "type": "Аксессуар"
+  },
+  {
+    "name": "Аптечка",
+    "value": "10",
+    "rarity": "gray",
+    "image": "img/aptechka.png",
+    "type": "Инструмент"
+  },
+  {
+    "name": "Ремонтный Набор",
+    "value": "15",
+    "rarity": "gray",
+    "image": "img/remka.png",
+    "type": "Инструмент"
+  },
+  {
+    "name": "Набор \"Сельчанин\"",
+    "value": "70",
+    "rarity": "green",
+    "image": "img/pack_selchanin.png",
+    "type": "Набор"
+  },
+  {
+    "name": "Набор \"Бандит\"",
+    "value": "650",
+    "rarity": "gold",
+    "image": "img/pack_bandit.png",
+    "type": "Набор"
+  },
+  {
+    "name": "Деньги",
+    "value": "-",
+    "rarity": "",
+    "image": "img/money.png",
+    "type": "Прочее"
+  },
+  {
+    "name": "BC",
+    "value": "-",
+    "rarity": "",
+    "image": "img/bc.png",
+    "type": "Прочее"
+  },
+  {
+    "name": "Одежда 29",
+    "value": "10",
+    "rarity": "gray",
+    "image": "img/29.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Емеля\"",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/emelya.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Бомж\"",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/bomj.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Хоуми\"",
+    "value": "60",
+    "rarity": "gray",
+    "image": "img/homie.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Защитница Закона\"",
+    "value": "60",
+    "rarity": "gray",
+    "image": "img/zakon.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Опасный Мужчина\"",
+    "value": "70",
+    "rarity": "gray",
+    "image": "img/dangerman.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Иван Береговой",
+    "value": "80",
+    "rarity": "gray",
+    "image": "img/beregovoy.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Бабушка Серафима",
+    "value": "80",
+    "rarity": "gray",
+    "image": "img/serafima.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Рыбачка\"",
+    "value": "90",
+    "rarity": "gray",
+    "image": "img/ribachka.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Королева Манипуляций\"",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/manipulyaciy.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Пузатый\"",
+    "value": "300",
+    "rarity": "green",
+    "image": "img/pyzatiy.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Пчелка\"",
+    "value": "400",
+    "rarity": "green",
+    "image": "img/pchelka.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Снеговик\"",
+    "value": "600",
+    "rarity": "blue",
+    "image": "img/snowman.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Игрок 456",
+    "value": "750",
+    "rarity": "blue",
+    "image": "img/456.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Борик",
+    "value": "800",
+    "rarity": "blue",
+    "image": "img/borik.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Роналду",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/ronaldo.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Литвин",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/litvin.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Илон Маск",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/elonmusk.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Дед Мороз\"",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/santa.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Поззи",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/pozzi.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Женщина\"",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/woman.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Девочка-Кролик\"",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/belka.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Снегурочка\"",
+    "value": "1300",
+    "rarity": "purple",
+    "image": "img/snegurochka.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Посейдон\"",
+    "value": "1500",
+    "rarity": "purple",
+    "image": "img/poseydon.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Злой",
+    "value": "1800",
+    "rarity": "purple",
+    "image": "img/ono.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Влад А4",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/vlada4.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Господин",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/putin.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Бустер",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/buster.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Мужчина\"",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/man.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Иван Золо",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/zolo.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Некоглай",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/nekoglai.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Кевин\"",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/kevin.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Коньки\"",
+    "value": "2500",
+    "rarity": "gold",
+    "image": "img/konkitelka.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скин \"Скелетон\"",
+    "value": "3000",
+    "rarity": "gold",
+    "image": "img/skeleton.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Фирменная Одежда",
+    "value": "15000",
+    "rarity": "gold",
+    "image": "img/admin.png",
+    "type": "Скин"
+  },
+  {
+    "name": "Скутер",
+    "value": "15",
+    "rarity": "gray",
+    "image": "img/skuter.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "ZAZ 968",
+    "value": "20",
+    "rarity": "gray",
+    "image": "img/zaz.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "GAZ Volga",
+    "value": "25",
+    "rarity": "gray",
+    "image": "img/volga.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "VAZ 2106",
+    "value": "25",
+    "rarity": "gray",
+    "image": "img/2106.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "VAZ 2107",
+    "value": "30",
+    "rarity": "gray",
+    "image": "img/zaz.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Aprilla MXV",
+    "value": "30",
+    "rarity": "gray",
+    "image": "img/aprila.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "VAZ 2112",
+    "value": "55",
+    "rarity": "gray",
+    "image": "img/2112.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "VAZ 2115",
+    "value": "60",
+    "rarity": "gray",
+    "image": "img/2115.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "LADA NIVA",
+    "value": "80",
+    "rarity": "green",
+    "image": "img/2107.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "VAZ 2170",
+    "value": "80",
+    "rarity": "green",
+    "image": "img/2170.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Niva Urban",
+    "value": "90",
+    "rarity": "green",
+    "image": "img/niva.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "UAZ Hunter",
+    "value": "90",
+    "rarity": "green",
+    "image": "img/UAZ.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Volkswagen Golf Gti",
+    "value": "100",
+    "rarity": "green",
+    "image": "img/golf.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "ЛуАЗ 969",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/luAZ.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Гидроцикл",
+    "value": "150",
+    "rarity": "green",
+    "image": "img/hydrocycle.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "LADA VESTA",
+    "value": "175",
+    "rarity": "green",
+    "image": "img/niva.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Lada Vesta SW",
+    "value": "180",
+    "rarity": "green",
+    "image": "img/Vesta SW.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Nissan Qashqai",
+    "value": "200",
+    "rarity": "green",
+    "image": "img/qashqai.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Audi A4",
+    "value": "200",
+    "rarity": "green",
+    "image": "img/a4.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Acura TSX",
+    "value": "200",
+    "rarity": "green",
+    "image": "img/tsx.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW X5",
+    "value": "220",
+    "rarity": "green",
+    "image": "img/x5.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz W210",
+    "value": "300",
+    "rarity": "green",
+    "image": "img/w210.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "UAZ Patriot",
+    "value": "300",
+    "rarity": "green",
+    "image": "img/patriot.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW M5 E60",
+    "value": "500",
+    "rarity": "green",
+    "image": "img/m5e60.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Subaru WRX  Sti",
+    "value": "550",
+    "rarity": "blue",
+    "image": "img/wrx.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Toyota Camry 3.5",
+    "value": "600",
+    "rarity": "blue",
+    "image": "img/camry.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Моторная Лодка",
+    "value": "600",
+    "rarity": "blue",
+    "image": "img/motornaya.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Alfa Romeo Guilia",
+    "value": "700",
+    "rarity": "blue",
+    "image": "img/romeo.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz A45 AMG",
+    "value": "700",
+    "rarity": "blue",
+    "image": "img/a45amg.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Volkswagen Passat",
+    "value": "720",
+    "rarity": "blue",
+    "image": "img/passat.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW M4 F84",
+    "value": "750",
+    "rarity": "blue",
+    "image": "img/m4f84.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Ducati Supersport",
+    "value": "800",
+    "rarity": "blue",
+    "image": "img/supersport.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW X5M E70",
+    "value": "800",
+    "rarity": "blue",
+    "image": "img/x5me70.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Lexus RCF",
+    "value": "850",
+    "rarity": "blue",
+    "image": "img/lexusRCF.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Infiniti FX50S",
+    "value": "900",
+    "rarity": "blue",
+    "image": "img/fx50s.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Chevrolet Camaro ZL1",
+    "value": "1000",
+    "rarity": "blue",
+    "image": "img/camaro.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "XPENG P7",
+    "value": "1000",
+    "rarity": "blue",
+    "image": "img/p7.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Speedy Yacht",
+    "value": "1000",
+    "rarity": "blue",
+    "image": "img/speedy.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Новогодний Subaru",
+    "value": "1000",
+    "rarity": "blue",
+    "image": "img/wintersubaru.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Wolksvagen Multivan",
+    "value": "1000",
+    "rarity": "blue",
+    "image": "img/multiwan.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Volvo XC90",
+    "value": "1050",
+    "rarity": "blue",
+    "image": "img/xc90.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Nissan Rathfinder 2022",
+    "value": "1050",
+    "rarity": "blue",
+    "image": "img/pathfinder.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz GT63s",
+    "value": "1200",
+    "rarity": "blue",
+    "image": "img/gt63s.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW Z4 M40i",
+    "value": "1200",
+    "rarity": "blue",
+    "image": "img/z4m40i.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW M5 F10",
+    "value": "1250",
+    "rarity": "blue",
+    "image": "img/m5f10.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Yamaha YZF-R6",
+    "value": "1250",
+    "rarity": "blue",
+    "image": "img/yamaha.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Ducati XDiavel",
+    "value": "1500",
+    "rarity": "blue",
+    "image": "img/xdiavel.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Cadilac Escalade",
+    "value": "1800",
+    "rarity": "blue",
+    "image": "img/Cescalade.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes AMG GT-R",
+    "value": "2000",
+    "rarity": "blue",
+    "image": "img/gtr.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW X6M F16",
+    "value": "2000",
+    "rarity": "blue",
+    "image": "img/x6mf16.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Зловещий",
+    "value": "2000",
+    "rarity": "blue",
+    "image": "img/zloveshiy.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Toyota Land Cruiser 200",
+    "value": "2000",
+    "rarity": "blue",
+    "image": "img/TLcruiser200.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "BMW M5 F90",
+    "value": "2400",
+    "rarity": "blue",
+    "image": "img/m5f90.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Kawasaki Ninja H2R",
+    "value": "2500",
+    "rarity": "purple",
+    "image": "img/supersport.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Range Rover SVR",
+    "value": "2500",
+    "rarity": "purple",
+    "image": "img/rrover.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Bnez CLS63 AMG",
+    "value": "2600",
+    "rarity": "purple",
+    "image": "img/cls63.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Lamborghini Aventador",
+    "value": "3000",
+    "rarity": "purple",
+    "image": "img/aventador.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Lamborghini Huracan",
+    "value": "3000",
+    "rarity": "purple",
+    "image": "img/huracan.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Daewoo Matiz",
+    "value": "3000",
+    "rarity": "purple",
+    "image": "img/matiz.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Invetero Coquette D5",
+    "value": "3000",
+    "rarity": "purple",
+    "image": "img/coquette.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "F1",
+    "value": "3000",
+    "rarity": "purple",
+    "image": "img/f1.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Lamborghini Urus",
+    "value": "3800",
+    "rarity": "purple",
+    "image": "img/urus.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Marine Yacht",
+    "value": "3800",
+    "rarity": "purple",
+    "image": "img/Marine.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Ferrari Enzo",
+    "value": "4000",
+    "rarity": "purple",
+    "image": "img/enzo.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz SLR McLaren",
+    "value": "4000",
+    "rarity": "purple",
+    "image": "img/slrmclaren.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz G63 AMG",
+    "value": "5500",
+    "rarity": "gold",
+    "image": "img/g63.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz Maybach S650",
+    "value": "6500",
+    "rarity": "gold",
+    "image": "img/maybach.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Aurus Senat",
+    "value": "7000",
+    "rarity": "gold",
+    "image": "img/senat.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Sea Yacht",
+    "value": "10000",
+    "rarity": "gold",
+    "image": "img/sea.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Rolls-Royce Phantom",
+    "value": "12000",
+    "rarity": "gold",
+    "image": "img/senat.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Bugatti Divo",
+    "value": "20000",
+    "rarity": "gold",
+    "image": "img/divo.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Ocean Yacht",
+    "value": "20000",
+    "rarity": "gold",
+    "image": "img/ocean.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Tesla Cybertruck",
+    "value": "20000",
+    "rarity": "gold",
+    "image": "img/cybertruck.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Bugatti Chiron",
+    "value": "20000",
+    "rarity": "gold",
+    "image": "img/chiron.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Bugatti Veyron",
+    "value": "25000",
+    "rarity": "gold",
+    "image": "img/veyron.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Rolls-Royce Spectre",
+    "value": "30000",
+    "rarity": "gold",
+    "image": "img/spectre.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "Mercedes-Benz G63 AMG 6x6",
+    "value": "40000",
+    "rarity": "gold",
+    "image": "img/g636x6.png",
+    "type": "Транспорт"
+  },
+  {
+    "name": "GAZ 69",
+    "value": "40000",
+    "rarity": "gold",
+    "image": "img/gaz69.png",
+    "type": "Транспорт"
+  }
+]

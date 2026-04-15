@@ -490,6 +490,37 @@ async function processSupportMessage(player, text, runtime, from) {
   await sendToTopic(threadId, topicText, runtime, { parse_mode: "MarkdownV2" });
 }
 
+async function notifyPlayerAboutPrivateMessage(receiverId, senderNick, messageText, runtime) {
+  // Получаем получателя сообщения
+  let receiver = await getPlayerById(receiverId);
+  if (!receiver || !receiver.telegram_id) {
+    console.log(`[notifyPlayerAboutPrivateMessage] Receiver ${receiverId} has no telegram_id`);
+    return;
+  }
+
+  const msgPreview = String(messageText || "").substring(0, 100);
+  const text = `💬 *Новое личное сообщение в игре!*\n\n` +
+    `👤 От: *${escapeMd(senderNick)}*\n` +
+    `📝 Сообщение: _${escapeMd(msgPreview)}${messageText && messageText.length > 100 ? "..." : ""}_\n\n` +
+    `🎮 *Перейти в игру и ответить*`;
+
+  const keyboard = {
+    inline_keyboard: [[
+      { text: "📱 Открыть игру", url: "https://black-russia-simulator.vercel.app/" }
+    ]]
+  };
+
+  try {
+    await sendMessage(Number(receiver.telegram_id), text, {
+      parse_mode: "MarkdownV2",
+      reply_markup: keyboard
+    });
+    console.log(`[notifyPlayerAboutPrivateMessage] Notification sent to ${receiver.id}`);
+  } catch (err) {
+    console.error(`[notifyPlayerAboutPrivateMessage] Failed to notify ${receiver.id}:`, err);
+  }
+}
+
 async function adminOpenPlayerCard(query, chatId, threadId, runtime) {
   let player = await getPlayerById(query);
   if (!player) player = await searchPlayerByNick(query);
