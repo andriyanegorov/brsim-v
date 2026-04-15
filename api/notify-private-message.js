@@ -8,6 +8,22 @@ const SUPABASE_CONFIG = {
 
 const TG_BOT_TOKEN = process.env.TG_BOT_TOKEN || "";
 
+function setCorsHeaders(req, res) {
+  const requestOrigin = String((req && req.headers && req.headers.origin) || "");
+  const allowedOrigin = process.env.CORS_ALLOW_ORIGIN || "*";
+
+  if (allowedOrigin === "*") {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  } else if (requestOrigin && requestOrigin === allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", requestOrigin);
+  }
+
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Max-Age", "86400");
+}
+
 async function supabaseSelect(table, query) {
   const baseUrl = String(SUPABASE_CONFIG.url || "").replace(/\/+$/, "");
   const qs = query ? `?${new URLSearchParams(query).toString()}` : "";
@@ -109,6 +125,12 @@ async function notifyPlayerAboutPrivateMessage(receiverId, senderNick, messageTe
 
 export default async function handler(req, res) {
   try {
+    setCorsHeaders(req, res);
+
+    if (req.method === "OPTIONS") {
+      return res.status(204).end();
+    }
+
     if (req.method !== "POST") {
       return res.status(405).json({ ok: false, error: "Method not allowed" });
     }
