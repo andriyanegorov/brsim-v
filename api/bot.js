@@ -903,6 +903,24 @@ async function handleCallbackQuery(cq, runtime) {
 
 export default async function handler(req, res) {
   try {
+    const requestOrigin = String((req && req.headers && req.headers.origin) || "");
+    const allowedOrigins = [
+      "http://127.0.0.1:5500",
+      "http://localhost:5500",
+      "https://black-russia-simulator.vercel.app",
+    ];
+
+    if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
+      res.setHeader("Access-Control-Allow-Origin", requestOrigin);
+    }
+    res.setHeader("Vary", "Origin");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+    if (req.method === "OPTIONS") {
+      return res.status(204).end();
+    }
+
     const runtime = buildRuntimeConfig();
     console.log("[handler] method", req.method);
     console.log("[handler] runtime", {
